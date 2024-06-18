@@ -4,7 +4,9 @@ Miscellaneous algorithms I've happened to implement.
 ---
 this is a repository consisting of 
 miscellaneous algorithms and data structures implementations.
-Many of which probably will come from leetcode.com problem lists.
+
+More random / more generic algorithms:
+https://leetcode.com/u/adam268/
 
 
 ### MOST HELPFUL ALGORITHMS ARE LISTED HERE:
