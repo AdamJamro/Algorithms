@@ -5,8 +5,7 @@ Miscellaneous algorithms I've happened to implement.
 this is a repository consisting of 
 miscellaneous algorithms and data structures implementations.
 
-More random / more generic algorithms I did [here]
-[here]: https://stackoverflow.com
+More random / more generic algorithms I did [here](https://stackoverflow.com)
 
 ### MOST HELPFUL ALGORITHMS ARE LISTED HERE:
 ```python3
