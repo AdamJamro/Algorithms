@@ -20,7 +20,7 @@ def superior_sort(array):
     - [summing all paths' distances in a tree [28.04.24]](./summing_all_paths_distances_in_a_tree.py)
 - String matching algorithms
     - [string hash matching [27.04.24]](./string_matching/string_hashing.py)
-    - [Rabin-Karp algorithm [20.06.24]](./string_matching/rabin_karp.cpp)
+    - [Rabin-Karp algorithm [20.06.24]](./string_matching/Rabin_Karp.cpp)
     - [KMP algorithm [18.06.24]](./string_matching/KMP.cpp)
 - [Manacher's algorithm (longest palindrome search) [27.04.24]](./manacher.py)
 - Sorting algorithms
