@@ -10,7 +10,7 @@ More random / more generic algorithms I did [here](https://stackoverflow.com)
 ### MOST HELPFUL ALGORITHMS ARE LISTED HERE:
 ```python3
 def superior_sort(array):
-    while is_sorted(array) == False:
+    while not is_sorted(array):
         random.shuffle(array)
 ```
 
