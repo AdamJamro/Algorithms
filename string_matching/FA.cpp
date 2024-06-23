@@ -6,6 +6,7 @@ using std::string;
 using std::vector;
 
 vector<unsigned int> finite_automaton_matcher(const string&, const string&, unsigned int);
+vector<unsigned int> finite_automaton_matcher(const string&, const string&, unsigned int, unsigned int*);
 unsigned int* compute_transition_function(const string&, unsigned int);
 
 inline size_t make_2d(size_t a, size_t b, unsigned int alphabet_size=256) {
@@ -107,6 +108,38 @@ vector<unsigned int> finite_automaton_matcher(const string& text, const string& 
     return offsets;
 }
 
+vector<unsigned int> finite_automaton_matcher(const string& text, const string& pattern, const unsigned int* transition_fun) {
+    const size_t text_len = text.length();
+    const size_t pattern_len = pattern.length();
+
+    vector<unsigned int> offsets{};
+    if (pattern_len == 0){
+        offsets.push_back(0);
+        return offsets;
+    }
+    if (text_len < pattern_len) {
+        offsets.push_back(-1);
+        return offsets;
+    }
+    offsets.reserve(int(text_len / pattern_len));
+
+    // simulation
+    unsigned int q = 0;
+    for (int i = 0; i < text_len; i++) {
+        q = transition_fun[make_2d(q, text[i])];
+
+        if (q == pattern_len) {
+            offsets.push_back(i - pattern_len + 1);
+        }
+    }
+
+    if (offsets.empty()) {
+        offsets.push_back(-1);
+    }
+
+    return offsets;
+}
+
 int main(int argc, char *argv[]) {
     string error_line = "Run this file with arguments FA [pattern] [file_name]\n";
     if (argc != 3) {
@@ -120,16 +153,19 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
+    // precompute the automaton
+    auto* transition_function = compute_transition_function(pattern, 256);
+
+
     string line;
     long unsigned int line_count = 0;
     std::ifstream file_stream (file_name);
-
     if (file_stream.is_open()) {
 
         while ( getline (file_stream, line) )
         {
             line_count++;
-            vector<unsigned int> found_matches = finite_automaton_matcher(line, pattern);
+            vector<unsigned int> found_matches = finite_automaton_matcher(line, pattern, transition_function);
 
             if (found_matches[0] != -1) {
                 std::cout << "Line " << line_count << " at: ";
@@ -144,6 +180,6 @@ int main(int argc, char *argv[]) {
     }
 
     else std::cout << "Unable to open file";
-
+    delete[] transition_function;
     return 0;
 }
