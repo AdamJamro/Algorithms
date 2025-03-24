@@ -2,10 +2,8 @@
 ---
 Miscellaneous algorithms I've happened to implement.
 ---
-this is a repository consisting of 
-miscellaneous algorithms and data structures implementations.
-
-More random / more generic algorithms I did [here](https://stackoverflow.com)
+Here I post various algorithms and data structures implementations.
+To see more random / more generic algorithms I did [click here](https://leetcode.com/u/adam268/)
 
 ### MOST HELPFUL ALGORITHMS ARE LISTED HERE:
 ```python3
@@ -23,8 +21,8 @@ def superior_sort(array):
     - [Rabin-Karp algorithm [20.06.24]](./string_matching/Rabin_Karp.cpp)
     - [KMP algorithm [18.06.24]](./string_matching/KMP.cpp)
     - [string hash matching [27.04.24]](./string_matching/string_hashing.py)
-- [Manacher's algorithm (longest palindrome search) [27.04.24]](./manacher.py)
 - Sorting Algorithms
     - [Superior sort (bogo sort) [27.04.24]](#most-helpful-algorithms-are-listed-here)
 - Competitive Programming
     - [longest_subsequence_with_less_than_k_distinct_elements [24.03.25]](./competitive_programming/longest_subsequence_with_less_than_k_distinct_elements.c)
+    - [Manacher's algorithm (longest palindrome search) [27.04.24]](./manacher.py)
