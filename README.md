@@ -29,3 +29,6 @@ def superior_sort(array):
 - Competitive Programming
     - [longest_subsequence_with_less_than_k_distinct_elements [24.03.25]](./competitive_programming/longest_subsequence_with_less_than_k_distinct_elements.c)
     - [Manacher's algorithm (longest palindrome search) [27.04.24]](./competitive_programming/manacher.py)
+- Numerical Algorithms
+    - [block matrix LU decomposition & Gaussian Elimination [28.03.25]](./numerical_analysis/gaussian_elimination)
+    - [Polynomial Interpolation - Lagrange [28.03.25]](./numerical_analysis/function_approximation/polynomial_interpolation)
