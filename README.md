@@ -5,9 +5,9 @@ Some of miscellaneous algorithms I've implemented.
 here you can find algorithms and data structures implementations.
 <br>To see more random / more generic algorithms I did [click here](https://leetcode.com/u/adam268/)
 
-### MOST USEFUL ALGORITHMS WILL BE LISTED HERE:
-```python3
-def superior_sort(array):
+### ALGORITHMS WORTH MENTIONING:
+```python
+superior_sort(array):
     while not is_sorted(array):
         random.shuffle(array)
 ```
@@ -15,7 +15,7 @@ def superior_sort(array):
 
 ## Contents
 - Neural Networks
-    - [Back Propagation for Multilayer Perceptron [work-in-progress]](.)
+    - [Back Propagation for Multilayer Perceptron [work-in-progress]](neural_networks/python/MLP_library/MLP.py)
 - Graph Algorithms
     - [Best-First-Search [28.03.25]](./graph_algorithms/python/best_first_search.py)
     - [summing all paths' distances in a tree [28.04.24]](./graph_algorithms/python/summing_all_paths_distances_in_a_tree.py)
