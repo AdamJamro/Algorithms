@@ -1,0 +1,234 @@
+INPUT	/ INPUT / INPUT	/ OUT	/ OUT	/ OUT	/ OUT	/ OUT
+p	    / p+1	/ p+2	/ p+3	/ p+4	/ p+5	/ p+6	/ p+7
+m	    / n	/ return/ qflag	/ rflag	/ var1	/ var2	/ quotient accumulator
+
+DIV sets quotient into r0 and the remainder into p register
+
+//r0 <- m
+DIV n => {
+
+# init flag == 1, p+4 == 0
+LOAD [1]
+STORE p+3 # quotient flag remembers sign of result
+STORE p+4 # remainder flag remembers sign of remainder
+STORE p+6 # we use it as sum quantity of denominatior value
+HALF # r0 == 0
+STORE p+7 # we calculate the quotient into p+7
+
+# check if x and y are positive and set the flag
+
+	#check p
+LOAD p
+JPOS 8 # check p+1
+JZERO 24 # result is zero
+# p is negative
+SUB p
+SUB p
+STORE p
+LOAD p+3 # qflag
+HALF
+STORE p+3
+
+	#check p+1
+LOAD p+1
+JPOS 15 # done
+JZERO 15 # result is zero
+# p+1 is negative
+SUB p+1
+SUB p+1
+STORE p+1
+# set rflag
+LOAD p+4 #rflag
+HALF
+STORE p+4
+# toggle qflag
+LOAD p+3 # qflag
+SUB [1]
+JNEG 3 # set flag to 1
+STORE p+3 # set flag to 0
+JUMP 6
+LOAD [1]
+STORE p+3
+JUMP 3
+
+	# result is zero
+LOAD p+7 # r0 <- 0
+RTRN p+2
+
+# result is negative 	=> qflag is zero
+# result is postiive 	=> qflag is one
+# remainder is negative => rflag is zero
+# remainder is positive => rflag is one
+# NOW p = abs(p), p+1 = abs(p+1)
+
+LOAD p+1 # store initally (p+5, p+6) == (denominator x1, 1)
+STORE p+5
+#while p+5 < p
+# at this line we actually p+5 is in r0
+SUB p
+JNEG 2
+JUMP 8 #endwhile
+LOAD p+6
+ADD p+6
+STORE p+6
+LOAD p+5
+ADD p+5
+STORE p+5
+JUMP -9 # endwhile
+
+# NOW (p+5, p+6) == (denominator x2^k, 2^k) for the least k s.t. p+5 >= p
+
+# we use p+7 as accummulator for quotient
+# we use p as the accumulator for remainder
+# initially p+6 is one so skip first check
+# repeat (until p+6 > 0 || p > 0)
+# if p+5 <= p
+LOAD p+5
+SUB p
+JPOS 8 #skip if
+LOAD p+7
+ADD p+6
+STORE p+7
+LOAD p
+SUB p+5
+STORE p
+JZERO 9 # if p == 0 : BREAK
+
+LOAD p+6
+HALF
+STORE p+6
+JZERO 5 # if p+6 == 0 : BREAK
+LOAD p+5
+HALF
+STORE p+5
+JUMP -16 #endrepeat
+
+# NOW p+7 is the quotient and p is the remainder
+
+# restore the signs
+# if qflag == 0
+LOAD p+3 # qflag
+JPOS 12 # skip if
+LOAD [0]
+SUB p+7
+STORE p+7
+# and if p != 0
+LOAD p
+JZERO 7 # skip if
+# shift
+LOAD p+7
+SUB [1]
+STORE p+7
+LOAD p+1
+SUB p
+STORE p
+#endif
+
+# if rflag == 0
+LOAD p+4 # rflag
+JPOS 4 # skip if
+LOAD [0]
+SUB p
+STORE p
+
+# DONE
+LOAD p+7
+RTRN p+2
+
+}
+
+
+
+# ### ######################################################################
+
+# ### ######################################################################
+# ### ######################################################################
+# ### ######################################################################
+# ### ######################### DIVMOD STRIPPED ############################
+
+# ### ######################################################################
+
+LOAD [1]
+STORE p+3
+STORE p+4
+STORE p+6
+HALF
+STORE p+7
+LOAD p
+JPOS 8
+JZERO 24
+SUB p
+SUB p
+STORE p
+LOAD p+3
+HALF
+STORE p+3
+LOAD p+1
+JPOS 15
+JZERO 15
+SUB p+1
+SUB p+1
+STORE p+1
+LOAD p+4
+HALF
+STORE p+4
+LOAD p+3
+SUB [1]
+JNEG 3
+STORE p+3
+JUMP 6
+LOAD [1]
+STORE p+3
+JUMP 3
+LOAD p+7
+RTRN p+2
+LOAD p+1
+STORE p+5
+SUB p
+JNEG 2
+JUMP 8
+LOAD p+6
+ADD p+6
+STORE p+6
+LOAD p+5
+ADD p+5
+STORE p+5
+JUMP -9
+LOAD p+5
+SUB p
+JPOS 8
+LOAD p+7
+ADD p+6
+STORE p+7
+LOAD p
+SUB p+5
+STORE p
+JZERO 9
+LOAD p+6
+HALF
+STORE p+6
+JZERO 5
+LOAD p+5
+HALF
+STORE p+5
+JUMP -16
+LOAD p+3
+JPOS 12
+LOAD [0]
+SUB p+7
+STORE p+7
+LOAD p
+JZERO 7
+LOAD p+7
+SUB [1]
+STORE p+7
+LOAD p+1
+SUB p
+STORE p
+LOAD p+4
+JPOS 4
+LOAD [0]
+SUB p
+STORE p
+LOAD p+7
+RTRN p+2

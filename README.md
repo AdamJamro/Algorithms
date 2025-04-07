@@ -32,3 +32,6 @@ superior_sort(array):
 - Numerical Algorithms
     - [block matrix LU decomposition & Gaussian Elimination [28.03.25]](./numerical_analysis/gaussian_elimination)
     - [Polynomial Interpolation - Lagrange [28.03.25]](./numerical_analysis/function_approximation/polynomial_interpolation)
+- Ram Machine
+    - [O(log(n)) multiplication](./RAM_machine/ram_mul.mr)
+    - [O(log(n)) division](./RAM_machine/ram_div_mod.mr)

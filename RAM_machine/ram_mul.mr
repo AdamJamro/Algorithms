@@ -1,0 +1,181 @@
+p	/ p+1	/ p+2	/ p+3	/ p+4	/ p+5
+m	/ n 	/ return/ flag	/ result/ swap placeholder
+flag is one == result is positive
+flag is zero == result is negative
+
+MUL puts result into r0 (p+4 is a result accumulator in the algorithm)
+
+r0 <- m
+MUL n => {
+
+# init flag == 1, p+4 == 0
+LOAD [1]
+STORE p+3
+
+# result will be accumulated in p+4 so set it 0
+HALF
+STORE p+4
+
+# check if x and y are positive and set the flag
+
+	#check p
+LOAD p
+JPOS 7 # check p+1
+JZERO 20 # result is zero
+# p is negative
+SUB p
+SUB p
+STORE p
+LOAD [0]
+STORE p+3
+
+	#check p+1
+LOAD p+1
+JPOS 15 # skip check clause
+JZERO 12 # result is zero
+# p+1 is negative
+SUB p+1
+SUB p+1
+STORE p+1
+# toggle flag
+LOAD p+3
+SUB [1]
+JNEG 3 # set flag to 1
+STORE p+3 # set flag to 0
+JUMP 6
+LOAD [1]
+STORE p+3
+JUMP 3
+
+	# result is zero
+LOAD p+4 # initally eq to zero
+RTRN p+2 # return with 0 == r0
+
+# result is negative => flag is zero
+# result is postiive => flag is one
+# NOW p = abs(p), p+1 = abs(p+1)
+
+LOAD p
+SUB p+1
+JNEG 2
+JUMP 8 #goto while
+# swap p <=> p+1
+LOAD p
+STORE p+5
+LOAD p+1
+STORE p
+LOAD p+5
+STORE p+1
+JUMP 2 # skip first LOAD p+1
+
+# NOW p+1 =< p
+
+# WHILE p+1 > 0
+# p+1 cannot be zero on first iteration
+# check if p+1 (== r0) is odd
+LOAD p+1
+HALF
+ADD 0
+SUB p+1
+JZERO 4 #skip if block
+LOAD p+4
+ADD p
+STORE p+4
+# double p and halve p+1
+LOAD p
+ADD p
+STORE p
+LOAD p+1
+HALF
+STORE p+1
+JPOS -13 # p+1 != 0 repeat while
+
+# set sign of result in p+4
+# if flag is zero swap sign
+LOAD p+3
+JPOS 4 # skip sign flip
+LOAD [0]
+SUB p+4
+JUMP 2 # product already in r0
+LOAD p+4 # load result into r0
+
+# done p
+RTRN p+2 # reutrn with the product in r0
+}
+
+
+
+
+
+# ### ######################################################################
+
+# ### ######################################################################
+# ### ######################################################################
+# ### ######################################################################
+# ### ######################### MUL    STRIPPED ############################
+
+# ### ######################################################################
+
+
+
+LOAD [1]
+STORE p+3
+HALF
+STORE p+4
+LOAD p
+JPOS 7
+JZERO 20
+SUB p
+SUB p
+STORE p
+LOAD [0]
+STORE p+3
+LOAD p+1
+JPOS 15
+JZERO 12
+SUB p+1
+SUB p+1
+STORE p+1
+LOAD p+3
+SUB [1]
+JNEG 3
+STORE p+3
+JUMP 6
+LOAD [1]
+STORE p+3
+JUMP 3
+LOAD p+4
+RTRN p+2
+LOAD p
+SUB p+1
+JNEG 2
+JUMP 8
+LOAD p
+STORE p+5
+LOAD p+1
+STORE p
+LOAD p+5
+STORE p+1
+JUMP 2
+LOAD p+1
+HALF
+ADD 0
+SUB p+1
+JZERO 4
+LOAD p+4
+ADD p
+STORE p+4
+LOAD p
+ADD p
+STORE p
+LOAD p+1
+HALF
+STORE p+1
+JPOS -13
+LOAD p+3
+JPOS 4
+LOAD [0]
+SUB p+4
+JUMP 2
+LOAD p+4
+RTRN p+2
